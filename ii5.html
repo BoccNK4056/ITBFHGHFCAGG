@@ -1,0 +1,107 @@
+<!-- Scramble (ii5) -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Word Scramble • FHGH</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Roboto:wght@300;400;500&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0ff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .game-container {
+      background: rgba(20, 20, 40, 0.9);
+      border: 1px solid rgba(100, 150, 255, 0.4);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #00f7ff;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+    .scrambled {
+      font-size: 1.8rem;
+      margin: 20px 0;
+      color: #ffcc00;
+      letter-spacing: 3px;
+    }
+    input {
+      padding: 12px;
+      margin: 10px;
+      border-radius: 8px;
+      border: 1px solid #6a11cb;
+      background: rgba(10, 10, 30, 0.7);
+      color: white;
+      font-size: 1.1rem;      text-align: center;
+      width: 200px;
+    }
+    button {
+      background: #6a11cb;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .message { margin-top: 15px; min-height: 24px; }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>🔤 Word Scramble</h1>
+    <p>Расшифруй перемешанное слово!</p>
+    <div class="scrambled" id="scrambled">ЗАГАДКА</div>
+    <input type="text" id="guess" placeholder="Твой ответ" maxlength="12" />
+    <br />
+    <button onclick="checkAnswer()">Проверить</button>
+    <div class="message" id="message"></div>
+    <button onclick="newWord()" style="margin-top: 15px;">Новое слово</button>
+  </div>
+
+  <script>
+    const words = ['КОСМОС', 'ИГРА', 'НЕЙРОН', 'ЛОГИКА', 'ФАКТ', 'КЛИК', 'ЭКРАН', 'МОЗГ', 'ВРЕМЯ', 'УДАЧА'];
+    let currentWord = '';
+
+    function shuffle(str) {
+      return str.split('').sort(() => Math.random() - 0.5).join('');
+    }
+
+    function newWord() {
+      currentWord = words[Math.floor(Math.random() * words.length)];
+      document.getElementById('scrambled').textContent = shuffle(currentWord);
+      document.getElementById('guess').value = '';
+      document.getElementById('message').textContent = '';
+    }
+
+    function checkAnswer() {
+      const guess = document.getElementById('guess').value.trim().toUpperCase();
+      const msg = document.getElementById('message');
+      if (guess === currentWord) {
+        msg.style.color = '#2ec4b6';
+        msg.textContent = '✅ Верно!';
+      } else {
+        msg.style.color = '#ff2e63';        msg.textContent = '❌ Попробуй ещё.';
+      }
+    }
+
+    newWord();
+  </script>
+</body>
+</html>
