@@ -1,0 +1,159 @@
+<!-- Aim (ii6) -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aim Trainer • FHGH</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Roboto:wght@300;400;500&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+      color: #e0e0ff;
+      min-height: 100vh;
+      position: relative;
+      /* 🔧 Убран overflow: hidden */
+    }
+    .screen {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      background: rgba(10, 10, 30, 0.92);
+      backdrop-filter: blur(5px);
+    }
+    #endScreen { display: none; }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #00f7ff;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+    .stats {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      z-index: 5;
+    }
+    button {
+      background: #4361ee;
+      color: white;
+      border: none;
+      padding: 12px 24px;      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+    button:hover {
+      background: #3a56d4;
+    }
+    .target {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #ff2e63, #ff6b6b);
+      border-radius: 50%;
+      cursor: pointer;
+      animation: pulse 1s infinite;
+      z-index: 1;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Счёт всегда виден -->
+  <div class="stats">Счёт: <span id="score">0</span> | Время: <span id="time">15</span>с</div>
+
+  <!-- Стартовый экран -->
+  <div class="screen" id="startScreen">
+    <h1>🎯 Aim Trainer</h1>
+    <p>Попадай по целям за 15 секунд!</p>
+    <button onclick="startGame()">Старт</button>
+  </div>
+
+  <!-- Экран окончания -->
+  <div class="screen" id="endScreen">
+    <h1>Игра окончена!</h1>
+    <div style="margin: 20px; font-size: 1.3rem; color: #ffcc00;">
+      Очки: <span id="finalScore">0</span>
+    </div>
+    <button onclick="location.reload()">Ещё раз</button>
+  </div>
+
+  <script>
+    let score = 0;
+    let timeLeft = 15;
+    let gameActive = false;
+    let gameTimer;
+    function createTarget() {
+      if (!gameActive) return;
+      const target = document.createElement('div');
+      target.className = 'target';
+      const size = 60;
+      const maxX = window.innerWidth - size;
+      const maxY = window.innerHeight - size;
+      target.style.left = Math.random() * maxX + 'px';
+      target.style.top = Math.random() * maxY + 'px';
+      target.addEventListener('click', () => {
+        if (!gameActive) return;
+        score++;
+        document.getElementById('score').textContent = score;
+        document.body.removeChild(target);
+        createTarget();
+      });
+      document.body.appendChild(target);
+      // Удаляем цель, если не попали
+      setTimeout(() => {
+        if (target.parentNode === document.body) {
+          document.body.removeChild(target);
+        }
+      }, 2000);
+    }
+
+    function startGame() {
+      score = 0;
+      timeLeft = 15;
+      gameActive = true;
+      document.getElementById('score').textContent = score;
+      document.getElementById('time').textContent = timeLeft;
+      document.getElementById('startScreen').style.display = 'none';
+
+      // Запуск таймера
+      clearInterval(gameTimer);
+      gameTimer = setInterval(() => {
+        timeLeft--;
+        document.getElementById('time').textContent = timeLeft;
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+
+      // Первые цели
+      for (let i = 0; i < 3; i++) {
+        setTimeout(createTarget, i * 600);
+      }
+    }
+    function endGame() {
+      gameActive = false;
+      clearInterval(gameTimer);
+      // Удалить все оставшиеся цели
+      document.querySelectorAll('.target').forEach(t => t.remove());
+      document.getElementById('finalScore').textContent = score;
+      document.getElementById('endScreen').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>
