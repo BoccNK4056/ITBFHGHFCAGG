@@ -1,0 +1,159 @@
+<!-- Memory (ii3) -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memory Match • FHGH</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Roboto:wght@300;400;500&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-boxКонечно! Вот **5 новых мини-игр от ИИ**, каждая — в **отдельном самодостаточном HTML-файле** (всё внутри: HTML + CSS + JS). Все игры оформлены в едином стиле FHGH: космический градиент, шрифт Orbitron, анимации, glassmorphism. Просто сохрани каждый блок как отдельный `.html`-файл и подключи через ссылки из `#iiGames`.
+
+---
+
+### 🎮 1. `memory-match.html` — Игра на память
+
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memory Match • FHGH</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Roboto:wght@300;400;500&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0ff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .game-container {
+      background: rgba(20, 20, 40, 0.9);
+      border: 1px solid rgba(100, 150, 255, 0.4);
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #00f7ff;
+      margin-bottom: 20px;
+      font-size: 1.8rem;    }
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .card {
+      aspect-ratio: 1;
+      background: #4361ee;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .card.flipped, .card.matched {
+      background: #2ec4b6;
+      color: #0f0c29;
+    }
+    .card.matched {
+      opacity: 0.8;
+    }
+    button {
+      background: #6a11cb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    .moves { margin-top: 15px; color: #ffcc00; }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>🧠 Memory Match</h1>
+    <p>Найди все пары за минимальное число ходов!</p>
+    <div id="game-board"></div>
+    <div class="moves">Ходы: <span id="moves">0</span></div>
+    <button onclick="initGame()">Новая игра</button>
+  </div>
+
+  <script>
+    const emojis = ['🚀', '👾', '🌌', '🛸', '🪐', '👽', '☄️', '📡'];
+    let cards = [];    let flippedCards = [];
+    let moves = 0;
+    let canFlip = true;
+
+    function initGame() {
+      const board = document.getElementById('game-board');
+      board.innerHTML = '';
+      flippedCards = [];
+      moves = 0;
+      document.getElementById('moves').textContent = moves;
+      canFlip = true;
+
+      cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+      cards.forEach((emoji, i) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.emoji = emoji;
+        card.dataset.index = i;
+        card.textContent = '?';
+        card.addEventListener('click', flipCard);
+        board.appendChild(card);
+      });
+    }
+
+    function flipCard() {
+      if (!canFlip || this.classList.contains('flipped') || this.classList.contains('matched')) return;
+      this.textContent = this.dataset.emoji;
+      this.classList.add('flipped');
+      flippedCards.push(this);
+
+      if (flippedCards.length === 2) {
+        canFlip = false;
+        moves++;
+        document.getElementById('moves').textContent = moves;
+
+        const [a, b] = flippedCards;
+        if (a.dataset.emoji === b.dataset.emoji) {
+          a.classList.add('matched');
+          b.classList.add('matched');
+          flippedCards = [];
+          canFlip = true;
+          if (document.querySelectorAll('.matched').length === cards.length) {
+            setTimeout(() => alert(`Победа! Ходов: ${moves}`), 300);
+          }
+        } else {
+          setTimeout(() => {
+            a.textContent = '?';
+            b.textContent = '?';
+            a.classList.remove('flipped');
+            b.classList.remove('flipped');            flippedCards = [];
+            canFlip = true;
+          }, 1000);
+        }
+      }
+    }
+
+    initGame();
+  </script>
+</body>
+</html>
