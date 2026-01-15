@@ -1,0 +1,105 @@
+<!-- R test (ii4) -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reaction Test • FHGH</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Roboto:wght@300;400;500&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+      color: #e0e0ff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .game-container {
+      background: rgba(20, 20, 40, 0.9);
+      border: 1px solid rgba(100, 200, 255, 0.4);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #00f7ff;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+    #target {
+      width: 120px;
+      height: 120px;
+      margin: 30px auto;
+      border-radius: 50%;
+      background: #ff2e63;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      color: white;
+      transition: background 0.2s;
+    }    #target.ready { background: #2ec4b6; }
+    #target.waiting { background: #4361ee; cursor: not-allowed; }
+    .result { margin-top: 20px; font-size: 1.2rem; color: #ffcc00; }
+    button {
+      background: #4361ee;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>⚡ Reaction Test</h1>
+    <p>Жди зелёный цвет — и кликай как можно быстрее!</p>
+    <div id="target" class="waiting">Жди...</div>
+    <div class="result" id="result"></div>
+    <button onclick="startRound()">Начать</button>
+  </div>
+
+  <script>
+    const target = document.getElementById('target');
+    const resultEl = document.getElementById('result');
+    let startTime = 0;
+
+    function startRound() {
+      target.className = 'waiting';
+      target.textContent = 'Жди...';
+      resultEl.textContent = '';
+
+      const delay = 1000 + Math.random() * 2000;
+      setTimeout(() => {
+        target.className = 'ready';
+        target.textContent = 'КЛИК!';
+        startTime = Date.now();
+      }, delay);
+    }
+
+    target.addEventListener('click', () => {
+      if (target.classList.contains('waiting')) {
+        resultEl.textContent = 'Слишком рано! Начни заново.';
+        return;
+      }
+      if (target.classList.contains('ready')) {
+        const reactionTime = Date.now() - startTime;
+        resultEl.innerHTML = `Твоя реакция: <strong>${reactionTime} мс</strong>`;
+        target.className = 'waiting';        target.textContent = 'Готово';
+      }
+    });
+  </script>
+</body>
+</html>
