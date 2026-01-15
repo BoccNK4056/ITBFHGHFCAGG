@@ -1,0 +1,159 @@
+<!-- Clicker (ii1) -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cosmic Clicker • FHGH</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Roboto:wght@300;400;500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0ff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .game-container {
+      background: rgba(20, 20, 40, 0.9);
+      border: 1px solid rgba(100, 150, 255, 0.4);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #00f7ff;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      text-shadow: 0 0 10px rgba(0, 247, 255, 0.6);
+    }
+
+    .score {
+      font-size: 2rem;
+      margin: 20px 0;
+      color: #ffcc00;      font-weight: bold;
+    }
+
+    button {
+      background: #6a11cb;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      margin: 10px;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background: #8a2be2;
+      transform: scale(1.05);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .upgrades {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(100, 150, 255, 0.3);
+    }
+
+    .message {
+      margin-top: 15px;
+      min-height: 24px;
+      color: #aaffaa;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>🌌 Cosmic Clicker</h1>
+    <div class="score">Энергия: <span id="energy">0</span></div>
+    <button id="clickBtn">⚡ Клик!</button>
+
+    <div class="upgrades">
+      <button id="buyAuto">Авто-собиратель (10 энергии)</button>
+      <button id="buyDouble">x2 Мощность (25 энергии)</button>    </div>
+
+    <div class="message" id="msg"></div>
+  </div>
+
+  <script>
+    let energy = 0;
+    let autoActive = false;
+    let clickPower = 1;
+    let autoInterval = null;
+
+    const energyEl = document.getElementById('energy');
+    const msgEl = document.getElementById('msg');
+    const clickBtn = document.getElementById('clickBtn');
+    const buyAutoBtn = document.getElementById('buyAuto');
+    const buyDoubleBtn = document.getElementById('buyDouble');
+
+    function updateUI() {
+      energyEl.textContent = Math.floor(energy);
+      buyAutoBtn.disabled = energy < 10;
+      buyDoubleBtn.disabled = energy < 25;
+    }
+
+    function showMessage(text) {
+      msgEl.textContent = text;
+      setTimeout(() => msgEl.textContent = '', 2000);
+    }
+
+    clickBtn.addEventListener('click', () => {
+      energy += clickPower;
+      updateUI();
+    });
+
+    buyAutoBtn.addEventListener('click', () => {
+      if (energy >= 10) {
+        energy -= 10;
+        if (!autoActive) {
+          autoActive = true;
+          autoInterval = setInterval(() => {
+            energy += 1;
+            updateUI();
+          }, 1000);
+          showMessage('Авто-собиратель запущен!');
+        }
+        updateUI();
+      }
+    });
+
+    buyDoubleBtn.addEventListener('click', () => {
+      if (energy >= 25) {        energy -= 25;
+        clickPower *= 2;
+        showMessage('Мощность удвоена!');
+        updateUI();
+      }
+    });
+
+    updateUI();
+  </script>
+</body>
+  </html>
