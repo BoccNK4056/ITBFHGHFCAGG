@@ -1,0 +1,237 @@
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Roboto:wght@300;400;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: #e6e6e6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login {
+    text-align: center;
+    background: rgba(25, 25, 45, 0.85);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(100, 150, 255, 0.3);
+    animation: fadeIn 0.8s ease-out;
+}
+
+#login h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    color: #4cc9f0;
+    letter-spacing: 1px;
+}
+
+#login input {
+    width: 240px;
+    padding: 12px;
+    margin-bottom: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    background: rgba(30, 30, 50, 0.9);
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    border: 1px solid #4cc9f0;    transition: all 0.3s ease;
+}
+
+#login input:focus {
+    box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.4);
+}
+
+#login button {
+    background: #4361ee;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    font-weight: 500;
+}
+
+#login button:hover {
+    background: #3a56d4;
+    transform: translateY(-2px);
+}
+
+#login button:active {
+    transform: translateY(0);
+}
+
+/* Main hub styles */
+#all {
+    width: 90%;
+    max-width: 900px;
+    text-align: center;
+}
+
+#title h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #4cc9f0;
+    text-shadow: 0 0 10px rgba(76, 201, 240, 0.6);
+}
+
+#toolPanel {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+#toolPanel #name {
+    color: #f72585;    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+#toolPanel #name:hover {
+    color: #ff6b9d;
+}
+
+#selectGames {
+    margin: 2rem 0;
+}
+
+#selectGames button {
+    background: #4361ee;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin: 0 10px;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+#selectGames button:hover {
+    background: #3a56d4;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#playerGames,
+#creatorGames,
+#iiGames {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(30, 30, 50, 0.7);
+    border-radius: 12px;
+    font-size: 1.2rem;
+    color: #aaa;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */@media (max-width: 600px) {
+    #login {
+        padding: 1.5rem;
+    }
+
+    #login h1 {
+        font-size: 1.6rem;
+    }
+
+    #login input {
+        width: 180px;
+        padding: 10px;
+    }
+
+    #selectGames button {
+        display: block;
+        width: 80%;
+        margin: 10px auto;
+    }
+}
+
+/* Стили для раздела "Игры от ИИ" */
+#iiGames {
+  display: none;
+  margin-top: 2rem;
+}
+
+#iiGames > div {
+  background: rgba(25, 25, 45, 0.85);
+  border: 1px solid rgba(100, 150, 255, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#iiGames > div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(76, 201, 240, 0.3);
+}
+
+#iiGames #nameGame {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.4rem;
+  color: #4cc9f0;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+#iiGames #txt {
+  font-size: 1rem;
+  color: #aaffaa;
+  margin: 10px 0 6px;
+  font-weight: 500;
+}
+
+#iiGames #difficulty,
+#iiGames #playability {
+  font-size: 1.1rem;
+  color: #ffcc00;
+  margin-bottom: 12px;
+}
+
+#iiGames #href {
+  display: inline-block;
+  background: #6a11cb;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#iiGames #href:hover {
+  background: #8a2be2;
+  transform: scale(1.05);
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+  #iiGames > div {
+    padding: 16px;
+  }
+
+  #iiGames #nameGame {
+    font-size: 1.2rem;
+  }
+  }
